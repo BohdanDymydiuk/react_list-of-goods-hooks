@@ -19,36 +19,36 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   let goods = [...goodsFromServer];
-  let isReverseCLicked = false;
   const ALPHABETICALLY: string = 'alphabetically';
   const BY_LENGTH: string = 'by length';
   const RESET: string = 'reset';
   const [sortedGoods, setSortedGoods] = useState('');
+  const [isReverseClicked, setReverseClicked] = useState(false);
   const [reverse, setReversed] = useState(false);
 
-  function sortGoods() {
+  function applySortingAndReversing() {
     if (sortedGoods === ALPHABETICALLY) {
-      goods = goods.toSorted((goodA, goodB) => goodA.localeCompare(goodB));
+      goods = [...goods].sort((goodA, goodB) => goodA.localeCompare(goodB));
     }
 
     if (sortedGoods === BY_LENGTH) {
-      goods = goods.toSorted((goodA, goodB) => goodA.length - goodB.length);
+      goods = [...goods].sort((goodA, goodB) => goodA.length - goodB.length);
     }
 
     if (reverse) {
-      goods = goods.toReversed();
+      goods = [...goods].reverse();
+    }
+
+    if (sortedGoods === RESET) {
+      goods = [...goodsFromServer];
     }
   }
 
-  if (sortedGoods === RESET) {
-    goods = [...goodsFromServer];
-  }
-
-  if (isReverseCLicked) {
-    goods = goods.toReversed();
-    isReverseCLicked = false;
+  if (isReverseClicked) {
+    goods = [...goods].reverse();
+    setReverseClicked(false);
   } else {
-    sortGoods();
+    applySortingAndReversing();
   }
 
   return (
@@ -81,7 +81,7 @@ export const App: React.FC = () => {
           })}
           onClick={() => {
             setReversed(!reverse);
-            isReverseCLicked = true;
+            setReverseClicked(true);
           }}
         >
           Reverse
