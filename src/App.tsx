@@ -27,7 +27,7 @@ export const App: React.FC = () => {
   const [sortGoods, setSortGoods] = useState('');
   const [reverse, setReversed] = useState(false);
 
-  function fSort() {
+  function setSort() {
     if (sortGoods === ALPHABETICALLY) {
       goods = [...goodsFromServer].sort((goodA, goodB) =>
         goodA.localeCompare(goodB),
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
     goods.reverse();
     isReverseCLicked = false;
   } else {
-    fSort();
+    setSort();
   }
 
   return (
